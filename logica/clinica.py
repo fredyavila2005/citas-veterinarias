@@ -138,7 +138,7 @@ class Clinica:
     # las canceladas.
     def _cita_del_veterinario(self, veterinario, fecha, hora):
         for cita in self._citas.values():
-            if (cita.veterinario is veterinario
+            if (cita.veterinario.cedula == veterinario.cedula
                     and cita.fecha == fecha
                     and cita.hora == hora
                     and cita.estado != Cita.CANCELADA):
@@ -148,7 +148,7 @@ class Clinica:
     # Regla 3: una mascota no puede tener dos citas en la misma fecha y hora
     def validar_mascota_libre(self, mascota, fecha, hora):
         for cita in self._citas.values():
-            if (cita.mascota is mascota
+            if (cita.mascota.nombre.lower() == mascota.nombre.lower()
                     and cita.fecha == fecha
                     and cita.hora == hora
                     and cita.estado != Cita.CANCELADA):
@@ -187,7 +187,7 @@ class Clinica:
 
     # Historial de una mascota ordenado por fecha y hora
     def historial_mascota(self, mascota):
-        citas = [c for c in self._citas.values() if c.mascota is mascota]
+        citas = [c for c in self._citas.values() if c.mascota.nombre.lower() == mascota.nombre.lower()]
         return sorted(citas, key=lambda c: (c.fecha, c.hora))
 
     def a_diccionario(self):

@@ -7,13 +7,12 @@
 # Arquitectura en capas:
 #   presentacion/ -> interfaz Gradio
 #   logica/       -> clases del dominio y reglas de negocio
-#   datos/        -> persistencia en json (base de datos) y datos de ejemplo
+#   datos/        -> persistencia en json y datos de ejemplo
 from datos.repositorio_json import RepositorioJSON
 from logica.gestor_clinicas import GestorClinicas
 from presentacion.interfaz import InterfazVeterinaria
 
 
-# Clase Main: crea las tres capas y arranca la aplicacion
 class Main:
     def __init__(self):
         repositorio = RepositorioJSON()

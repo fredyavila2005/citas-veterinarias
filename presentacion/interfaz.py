@@ -52,11 +52,14 @@ class InterfazVeterinaria:
             for p in clinica.propietarios
         ]
 
-    def _opciones_citas(self, clinica):
+    def _opciones_citas(self, clinica, solo_programadas=False):
+        citas = clinica.citas
+        if solo_programadas:
+            citas = [c for c in citas if c.estado == "Programada"]
         return [
             (f"{c.codigo} · {c.fecha} {c.hora.strftime('%H:%M')} · "
              f"{c.mascota.nombre} · {c.estado}", c.codigo)
-            for c in clinica.citas
+            for c in citas
         ]
 
     # Convierte una lista de citas en filas para la tabla
@@ -93,13 +96,14 @@ class InterfazVeterinaria:
         servicios = self._opciones_servicios(clinica)
         propietarios = self._opciones_propietarios(clinica)
         citas = self._opciones_citas(clinica)
+        vets = self._opciones_veterinarios(clinica)
         return (
-            gr.update(choices=self._opciones_veterinarios(clinica), value=""),
+            gr.update(choices=vets, value=vets[0][1] if len(vets) > 0 else ""),
             gr.update(choices=servicios, value=None),
             gr.update(choices=servicios, value=[]),
             gr.update(choices=propietarios, value=None),
             gr.update(choices=propietarios, value=None),
-            gr.update(choices=citas, value=None),
+            gr.update(choices=self._opciones_citas(clinica, solo_programadas=True), value=None),
             gr.update(choices=citas, value=None),
             gr.update(choices=propietarios, value=None),
             [[v.cedula, v.nombre, v.tarjeta_profesional]
@@ -147,7 +151,10 @@ class InterfazVeterinaria:
                 f"Se cargaron {cargadas} clínicas de ejemplo con sus "
                 f"veterinarios y catálogos."
             )
-        return aviso, self.refrescar_clinicas(nit_actual)
+        # Seleccionar la primera clínica disponible para refrescar desplegables
+        clinicas = self._gestor.clinicas
+        nit_sel = clinicas[0].nit if clinicas else (nit_actual or None)
+        return aviso, self.refrescar_clinicas(nit_sel)
 
     def accion_registrar_veterinario(self, nit, cedula, nombre, tarjeta):
         try:
@@ -207,14 +214,31 @@ class InterfazVeterinaria:
             f"La cita {c.codigo} fue cancelada. No se genera factura."
         )
 
+    def accion_eliminar_cita(self, codigo):
+        if not codigo:
+            return vistas.aviso_error("Seleccione una cita para eliminar.")
+        try:
+            self._gestor.eliminar_cita(codigo)
+            return vistas.aviso_ok(f"Cita {codigo} eliminada.")
+        except ErrorClinica as error:
+            return vistas.aviso_error(str(error))
+
     def accion_atender(self, codigo, adicionales):
+        if not codigo:
+            return vistas.aviso_error("Seleccione una cita para atender.")
         try:
             factura = self._gestor.atender_cita(codigo, adicionales)
         except ErrorClinica as error:
             return vistas.aviso_error(str(error))
+        except Exception as error:
+            return vistas.aviso_error(f"Error inesperado: {error}")
+        try:
+            html_factura = vistas.factura_html(factura)
+        except Exception:
+            html_factura = "<p>Factura generada correctamente.</p>"
         return (
             vistas.aviso_ok(f"Cita {codigo} atendida.")
-            + vistas.factura_html(factura)
+            + html_factura
         )
 
     def accion_consultar_fecha(self, nit, fecha):
@@ -405,8 +429,11 @@ class InterfazVeterinaria:
                         label="Servicios adicionales durante la atención",
                         choices=[]
                     )
-                    btn_atender = gr.Button(
-                        "Atender cita y generar factura", variant="primary")
+                    with gr.Row():
+                        btn_atender = gr.Button(
+                            "Atender cita y generar factura", variant="primary")
+                        btn_eliminar = gr.Button(
+                            "Eliminar cita seleccionada", variant="stop")
                     out_atender = gr.HTML()
 
                 # ---------------- 7. Consultas ----------------
@@ -506,6 +533,10 @@ class InterfazVeterinaria:
 
             btn_cancelar.click(
                 self.accion_cancelar, [x_cita], [out_cancelar]
+            ).then(self.refrescar_dependientes, [dd_clinica], salidas_dep)
+
+            btn_eliminar.click(
+                self.accion_eliminar_cita, [a_cita], [out_atender]
             ).then(self.refrescar_dependientes, [dd_clinica], salidas_dep)
 
             btn_atender.click(

@@ -95,15 +95,18 @@ class Cita:
                 f"No se puede atender la cita {self._codigo} porque su "
                 f"estado es {self._estado}."
             )
-        self._servicios_adicionales = list(servicios_adicionales)
-        self._estado = Cita.ATENDIDA
-        self._factura = Factura(
+        # Crear factura primero; solo si funciona se cambia el estado
+        servicios = [self._servicio] + list(servicios_adicionales)
+        factura = Factura(
             numero_factura,
             self._fecha,
             self._propietario,
             self._mascota,
-            self.servicios_prestados
+            servicios
         )
+        self._servicios_adicionales = list(servicios_adicionales)
+        self._estado = Cita.ATENDIDA
+        self._factura = factura
         return self._factura
 
     # Se usa al cargar los datos desde el json

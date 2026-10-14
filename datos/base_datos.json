@@ -1,0 +1,183 @@
+{
+    "contador_citas": 2,
+    "contador_facturas": 1,
+    "clinicas": [
+        {
+            "nit": "901456789-1",
+            "nombre": "Clínica Veterinaria Huellitas",
+            "codigo_dane": "68679",
+            "municipio": "San Gil",
+            "departamento": "Santander",
+            "direccion": "Calle 12 # 9-40",
+            "barrio": "Centro",
+            "veterinarios": [
+                {
+                    "cedula": "63512478",
+                    "nombre": "Juliana Ortiz Ramírez",
+                    "tarjeta_profesional": "TP-18452"
+                },
+                {
+                    "cedula": "91254863",
+                    "nombre": "Mauricio Pinzón Gómez",
+                    "tarjeta_profesional": "TP-20117"
+                }
+            ],
+            "servicios": [
+                {
+                    "codigo": "CG",
+                    "nombre": "Consulta general",
+                    "tarifa": 60000.0
+                },
+                {
+                    "codigo": "VAC",
+                    "nombre": "Vacunación",
+                    "tarifa": 45000.0
+                },
+                {
+                    "codigo": "DES",
+                    "nombre": "Desparasitación",
+                    "tarifa": 30000.0
+                },
+                {
+                    "codigo": "PEL",
+                    "nombre": "Baño y peluquería",
+                    "tarifa": 50000.0
+                }
+            ],
+            "propietarios": [
+                {
+                    "cedula": "1098765432",
+                    "nombre": "Laura Méndez Plata",
+                    "telefono": "3157894561",
+                    "municipio": "Bucaramanga",
+                    "mascotas": [
+                        {
+                            "nombre": "Rocky",
+                            "especie": "Perro",
+                            "raza": "Criolla",
+                            "anio_nacimiento": 2023,
+                            "peso": 18.0
+                        }
+                    ]
+                },
+                {
+                    "cedula": "1005678912",
+                    "nombre": "Camila Duarte Serrano",
+                    "telefono": "3204567812",
+                    "municipio": "San Gil",
+                    "mascotas": [
+                        {
+                            "nombre": "Copito",
+                            "especie": "Conejo",
+                            "raza": "Cabeza de león",
+                            "anio_nacimiento": 2025,
+                            "peso": 1.5
+                        }
+                    ]
+                }
+            ],
+            "citas": [
+                {
+                    "codigo": "CIT-001",
+                    "fecha": "2026-10-26",
+                    "hora": "09:00",
+                    "cedula_propietario": "1098765432",
+                    "nombre_mascota": "Rocky",
+                    "cedula_veterinario": "63512478",
+                    "codigo_servicio": "CG",
+                    "estado": "Cancelada",
+                    "servicios_adicionales": [],
+                    "factura": null
+                },
+                {
+                    "codigo": "CIT-002",
+                    "fecha": "2026-10-20",
+                    "hora": "09:00",
+                    "cedula_propietario": "1005678912",
+                    "nombre_mascota": "Copito",
+                    "cedula_veterinario": "91254863",
+                    "codigo_servicio": "DES",
+                    "estado": "Atendida",
+                    "servicios_adicionales": [
+                        "CG"
+                    ],
+                    "factura": {
+                        "numero": "FAC-001",
+                        "fecha": "2026-10-20",
+                        "servicios": [
+                            "DES",
+                            "CG"
+                        ],
+                        "total": 90000.0
+                    }
+                }
+            ]
+        },
+        {
+            "nit": "900987654-3",
+            "nombre": "Clínica Veterinaria Patitas Felices",
+            "codigo_dane": "68276",
+            "municipio": "Floridablanca",
+            "departamento": "Santander",
+            "direccion": "Carrera 27 # 30-15",
+            "barrio": "Cañaveral",
+            "veterinarios": [
+                {
+                    "cedula": "13745821",
+                    "nombre": "Sergio Arenas Villamizar",
+                    "tarjeta_profesional": "TP-15893"
+                },
+                {
+                    "cedula": "37896542",
+                    "nombre": "Diana Carolina Rey Moreno",
+                    "tarjeta_profesional": "TP-22406"
+                },
+                {
+                    "cedula": "1098654321",
+                    "nombre": "Felipe Castellanos Díaz",
+                    "tarjeta_profesional": "TP-31578"
+                }
+            ],
+            "servicios": [
+                {
+                    "codigo": "CG",
+                    "nombre": "Consulta general",
+                    "tarifa": 65000.0
+                },
+                {
+                    "codigo": "VAC",
+                    "nombre": "Vacunación",
+                    "tarifa": 48000.0
+                },
+                {
+                    "codigo": "DES",
+                    "nombre": "Desparasitación",
+                    "tarifa": 32000.0
+                },
+                {
+                    "codigo": "ECO",
+                    "nombre": "Ecografía",
+                    "tarifa": 120000.0
+                }
+            ],
+            "propietarios": [
+                {
+                    "cedula": "1102345678",
+                    "nombre": "Andrés Rueda Ardila",
+                    "telefono": "3016789023",
+                    "municipio": "Piedecuesta",
+                    "mascotas": [
+                        {
+                            "nombre": "Luna",
+                            "especie": "Gato",
+                            "raza": "Siamés",
+                            "anio_nacimiento": 2022,
+                            "peso": 4.0
+                        }
+                    ]
+                }
+            ],
+            "citas": []
+        }
+    ]
+}

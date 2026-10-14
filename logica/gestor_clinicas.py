@@ -220,5 +220,26 @@ class GestorClinicas:
                 )
             for codigo, nombre, tarifa in datos["servicios"]:
                 self.registrar_servicio(datos["nit"], codigo, nombre, tarifa)
+            for prop in datos.get("propietarios", []):
+                self.registrar_propietario(
+                    datos["nit"], prop["cedula"], prop["nombre"],
+                    prop["telefono"], prop["municipio"]
+                )
+                for nombre, especie, raza, anio, peso in prop.get("mascotas", []):
+                    self.registrar_mascota(
+                        datos["nit"], prop["cedula"], nombre, especie,
+                        raza, anio, peso
+                    )
             cargadas += 1
         return cargadas
+
+
+    def eliminar_cita(self, codigo):
+        """Elimina una cita del sistema (útil para limpiar pruebas)."""
+        cita = self.buscar_cita(codigo)
+        for clinica in self.clinicas:
+            if codigo in clinica._citas:
+                del clinica._citas[codigo]
+                self._guardar()
+                return True
+        return False

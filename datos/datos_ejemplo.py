@@ -1,5 +1,6 @@
-# Clinicas del enunciado, se cargan desde una opcion de la interfaz
-# para agilizar las pruebas
+# Clinicas y datos de ejemplo del enunciado
+# Incluye propietarios y mascotas de los casos de prueba para agilizar las demostraciones
+
 CLINICAS_EJEMPLO = [
     {
         "nit": "901456789-1",
@@ -18,6 +19,26 @@ CLINICAS_EJEMPLO = [
             ("VAC", "Vacunación", 45000),
             ("DES", "Desparasitación", 30000),
             ("PEL", "Baño y peluquería", 50000)
+        ],
+        "propietarios": [
+            {
+                "cedula": "1098765432",
+                "nombre": "Laura Méndez Plata",
+                "telefono": "3157894561",
+                "municipio": "Bucaramanga",
+                "mascotas": [
+                    ("Rocky", "Perro", "Criolla", 2023, 18)
+                ]
+            },
+            {
+                "cedula": "1005678912",
+                "nombre": "Camila Duarte Serrano",
+                "telefono": "3204567812",
+                "municipio": "San Gil",
+                "mascotas": [
+                    ("Copito", "Conejo", "Cabeza de león", 2025, 1.5)
+                ]
+            }
         ]
     },
     {
@@ -38,6 +59,17 @@ CLINICAS_EJEMPLO = [
             ("VAC", "Vacunación", 48000),
             ("DES", "Desparasitación", 32000),
             ("ECO", "Ecografía", 120000)
+        ],
+        "propietarios": [
+            {
+                "cedula": "1102345678",
+                "nombre": "Andrés Rueda Ardila",
+                "telefono": "3016789023",
+                "municipio": "Piedecuesta",
+                "mascotas": [
+                    ("Luna", "Gato", "Siamés", 2022, 4)
+                ]
+            }
         ]
     }
 ]
