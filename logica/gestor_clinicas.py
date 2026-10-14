@@ -155,9 +155,10 @@ class GestorClinicas:
         raise ErrorNoEncontrado(f"No existe la cita {codigo}.")
 
     # Funcionalidad 5: cancelar una cita
-    def cancelar_cita(self, codigo):
+    # Funcionalidad 5: cancelar una cita
+    def cancelar_cita(self, codigo, fecha_cancelacion=None):
         cita = self.buscar_cita(codigo)
-        cita.cancelar()
+        cita.cancelar(fecha_cancelacion)
         self._guardar()
         return cita
 

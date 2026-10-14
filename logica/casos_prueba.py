@@ -80,7 +80,7 @@ def ejecutar_casos_prueba(gestor):
     )
     intentar(
         "Caso 3", "Cancelar la cita el 11 de noviembre",
-        lambda: f"La cita {gestor.cancelar_cita('CIT-003').codigo} quedó "
+        lambda: f"La cita {gestor.cancelar_cita('CIT-003', '2026-11-11').codigo} quedó "
         f"Cancelada y no se genera factura."
     )
 

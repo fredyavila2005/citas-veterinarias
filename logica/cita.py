@@ -1,5 +1,7 @@
+from datetime import date
 from logica.excepciones import ErrorCitaNoPermitida
 from logica.factura import Factura
+from logica.validaciones import convertir_fecha
 
 
 # Cita veterinaria. Al crearse queda en estado Programada
@@ -66,13 +68,22 @@ class Cita:
     def servicios_prestados(self):
         return [self._servicio] + self._servicios_adicionales
 
-    # Regla 4: solo se cancela una cita Programada
+    # Regla 4: solo se cancela una cita Programada y antes de su fecha
     # Las citas canceladas no se eliminan, solo cambian de estado
-    def cancelar(self):
+    def cancelar(self, fecha_cancelacion=None):
         if self._estado != Cita.PROGRAMADA:
             raise ErrorCitaNoPermitida(
                 f"No se puede cancelar la cita {self._codigo} porque su "
                 f"estado es {self._estado}."
+            )
+        fecha_ref = (
+            convertir_fecha(fecha_cancelacion)
+            if fecha_cancelacion else date.today()
+        )
+        if fecha_ref >= self._fecha:
+            raise ErrorCitaNoPermitida(
+                f"No se puede cancelar la cita {self._codigo} porque debe "
+                f"hacerse antes de la fecha programada ({self._fecha})."
             )
         self._estado = Cita.CANCELADA
 
